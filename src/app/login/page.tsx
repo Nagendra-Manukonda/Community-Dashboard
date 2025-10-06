@@ -105,7 +105,7 @@ export default function Loginpage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-md text-[#030229]/70 font-normal"
+                  className="rounded-md w-full text-[#030229]/70 font-normal"
                 />
               </div>
 
