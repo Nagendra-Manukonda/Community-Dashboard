@@ -23,6 +23,7 @@ export default function Loginpage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  // Hydration fix: Only check for token after component mounts
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
@@ -34,12 +35,10 @@ export default function Loginpage() {
     e.preventDefault();
 
     if (email === "admin@test.com" && password === "123456") {
-      if (rememberMe) {
-        Cookies.set("token", "my-secret-token", { expires: 7 });
-      } else {
-        Cookies.set("token", "my-secret-token");
-      }
+      const token = "my-secret-token";
 
+      // Save the token and user info to cookies
+      Cookies.set("token", token, { expires: rememberMe ? 7 : undefined });
       Cookies.set("user", JSON.stringify({ email, rememberMe }), {
         expires: rememberMe ? 7 : undefined,
       });

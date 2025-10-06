@@ -22,7 +22,7 @@ export default function SignInpage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
@@ -154,6 +154,21 @@ export default function SignInpage() {
                     {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                   </button>
                 </div>
+              </div>
+
+              {/* ADDED REMEMBER ME CHECKBOX */}
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) =>
+                    setRememberMe(checked as boolean)
+                  }
+                  className="h-4 w-4 border border-[#030229]/70 bg-white cursor-pointer focus:ring-0"
+                />
+                <Label htmlFor="remember" className="text-sm">
+                  Remember me
+                </Label>
               </div>
 
               <div className="flex w-full justify-center space-x-2">
