@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -10,11 +10,6 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
 
   return (
     <SidebarProvider>
@@ -26,6 +21,7 @@ export default function DashboardLayout({
         >
           <DashboardSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         </div>
+
         <div className="flex-1 flex flex-col overflow-auto">
           <main className="flex-1 p-2">{children}</main>
         </div>

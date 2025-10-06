@@ -3,45 +3,40 @@ import type { NextRequest } from "next/server";
 
 const isTokenExpired = (token: string) => {
   try {
-    const payloadBase64 = token.split('.')[1];
-    if (!payloadBase64) return true;
-    const decoded = JSON.parse(atob(payloadBase64));
+    const payload = token.split('.')[1];
+    if (!payload) return true;
+    const decoded = JSON.parse(atob(payload));
     return decoded.exp < Date.now() / 1000;
-  } catch (err) {
-    console.error("Token decode error:", err);
+  } catch {
     return true;
   }
 };
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-  const { pathname } = req.nextUrl;
+  const path = req.nextUrl.pathname;
 
-  const isLoginPath = pathname === "/login";
-  const isSignupPath = pathname === "/signup";
-  const wantsDashboard = pathname.startsWith("/dashboard");
+  const isAuthPage = path === "/login" || path === "/signup";
+  const isProtectedRoute = path.startsWith("/dashboard");
 
-  try {
-    if (token) {
-      if (isLoginPath || isSignupPath) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
-      if (wantsDashboard && isTokenExpired(token)) {
-        const res = NextResponse.redirect(new URL("/login", req.url));
-        res.cookies.delete("token");
-        return res;
-      }
-      return NextResponse.next();
-    } else {
-      if (wantsDashboard) {
-        return NextResponse.redirect(new URL("/login", req.url));
-      }
-      return NextResponse.next();
-    }
-  } catch (err) {
-    console.error("Middleware error:", err);
+  if (!token && isProtectedRoute) {
+    // Redirect unauthenticated users to login
     return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  if (token && isAuthPage) {
+    // Redirect logged-in users away from login/signup
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
+  if (token && isTokenExpired(token)) {
+    // Expired token: clear cookie and redirect
+    const res = NextResponse.redirect(new URL("/login", req.url));
+    res.cookies.delete("token");
+    return res;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
