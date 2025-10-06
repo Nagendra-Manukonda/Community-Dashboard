@@ -30,12 +30,6 @@ export default function Loginpage() {
     }
   }, [router]);
 
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      Loading...
-    </div>
-  );
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -111,7 +105,7 @@ export default function Loginpage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-md w-full text-[#030229]/70 font-normal"
+                  className="rounded-md text-[#030229]/70 font-normal"
                 />
               </div>
 
@@ -170,7 +164,7 @@ export default function Loginpage() {
 
           <CardFooter className="flex justify-center mt-4">
             <p className="text-sm">
-              Don&apos;t have an account yet?{" "}
+              Don't have an account yet?{" "}
               <span
                 onClick={() => router.push("/signup")}
                 className="text-[#605BFF] hover:underline cursor-pointer"
