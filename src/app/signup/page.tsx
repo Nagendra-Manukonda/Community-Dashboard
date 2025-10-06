@@ -30,11 +30,12 @@ export default function SignInpage() {
     const token = Cookies.get("token");
     if (token) {
       setIsAuthenticated(true);
-      router.push("/dashboard");
+      // ❌ REMOVE THIS LINE:
+      // router.push("/dashboard");
     } else {
       setIsAuthenticated(false);
     }
-  }, [router]);
+  }, []);
 
   if (isAuthenticated === null) return null;
 
@@ -49,7 +50,7 @@ export default function SignInpage() {
         expires: rememberMe ? 7 : undefined,
       });
 
-      router.push("/dashboard");
+      router.push("/dashboard"); // ✅ Keep this — it's after login.
     } else {
       alert("Please enter email and password");
     }
@@ -156,7 +157,6 @@ export default function SignInpage() {
                 </div>
               </div>
 
-              {/* ADDED REMEMBER ME CHECKBOX */}
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember"
