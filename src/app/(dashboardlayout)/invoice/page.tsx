@@ -184,7 +184,7 @@ export default function InvoiceMain() {
         </div>
       ),
       cell: ({ row }) => {
-        const { name, image, id } = row.original;
+        const { name, image } = row.original;
         const initials = name
           .split(" ")
           .map((n) => n[0])

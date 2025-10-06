@@ -38,8 +38,7 @@ export default function SignInPage() {
       return;
     }
 
-    // Example "create account" logic
-    const token = "my-secret-token"; // In real app, get from server
+    const token = "my-secret-token";
 
     Cookies.set("token", token, {
       expires: rememberMe ? 7 : undefined,
@@ -161,11 +160,13 @@ export default function SignInPage() {
 
               <div className="flex w-full justify-center space-x-2">
                 <Checkbox
-                  id="terms"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(!!checked)}
                   className="h-4 w-4 border border-[#030229]/70 cursor-pointer bg-white text-[#030229] focus:ring-0 mt-1"
                 />
                 <label
-                  htmlFor="terms"
+                  htmlFor="rememberMe"
                   className="font-normal w-80 h-11 text-[#030229]"
                 >
                   By creating an account you agree to the <br />
