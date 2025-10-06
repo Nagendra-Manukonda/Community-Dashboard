@@ -5,7 +5,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { SortingState } from "@tanstack/react-table";
 import { CalendarDays, Clock, MapPin, Plus, Search, User } from "lucide-react";
 import React, { useState } from "react";
 
@@ -14,8 +13,7 @@ type DayProps = {
   selected?: boolean;
   today?: boolean;
   outside?: boolean;
-  [key: string]: any;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const events: Record<string, { label: string; color: string }[]> = {
   "2025-01-26": [{ label: "Republic Day", color: "bg-orange-400 text-white" }],
@@ -44,7 +42,6 @@ const events: Record<string, { label: string; color: string }[]> = {
 export default function Calendarpage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [displayMonth, setDisplayMonth] = useState<Date>(new Date());
   const [view, setView] = useState<"day" | "week" | "month" | "year">("month");
 
@@ -135,7 +132,7 @@ export default function Calendarpage() {
                       <User />
                       Add People
                     </Button>
-                    <Button className="border border-gray-300   px-3 py-1 flex items-center gap-1 text-[#605BFF]">
+                    <Button className="border border-gray-300 px-3 py-1 flex items-center gap-1 text-[#605BFF]">
                       <MapPin />
                       Add location
                     </Button>
@@ -175,21 +172,24 @@ export default function Calendarpage() {
               onSelect={setDate}
               className="w-full rounded-lg border"
               components={{
-                Day: ({ date, ...props }: { date?: Date } & any) => {
-                  if (!date) return <td {...props} />;
+                Day: (
+                  props: {
+                    day?: { date: Date };
+                  } & React.HTMLAttributes<HTMLDivElement>
+                ) => {
+                  const dayDate: Date = props.day?.date || new Date();
                   const isToday =
-                    date.toDateString() === new Date().toDateString();
+                    dayDate.toDateString() === new Date().toDateString();
+
                   return (
                     <div
                       {...props}
                       className={cn(
-                        "flex items-center justify-center w-9 h-9 rounded-full cursor-pointer",
-                        isToday
-                          ? "bg-[#605BFF] text-white"
-                          : "hover:bg-gray-100"
+                        "flex flex-1 items-center justify-center text-[10px] mb-0.5",
+                        isToday && "bg-[#605BFF]/20"
                       )}
                     >
-                      {date.getDate()}
+                      {dayDate.getDate()}
                     </div>
                   );
                 },
@@ -335,7 +335,12 @@ export default function Calendarpage() {
               onMonthChange={setDisplayMonth}
               className="w-full h-full"
               components={{
-                Day: ({ day, ...props }) => {
+                Day: ({
+                  day,
+                  ...props
+                }: {
+                  day: { date: Date };
+                } & React.HTMLAttributes<HTMLTableCellElement>) => {
                   const dayKey = `${day.date.getFullYear()}-${(
                     day.date.getMonth() + 1
                   )
@@ -344,7 +349,6 @@ export default function Calendarpage() {
                     .getDate()
                     .toString()
                     .padStart(2, "0")}`;
-
                   const dayEvents = events[dayKey] || [];
                   const isToday =
                     day.date.toDateString() === new Date().toDateString();
@@ -398,19 +402,25 @@ export default function Calendarpage() {
                       onMonthChange={setDisplayMonth}
                       className="w-full h-full"
                       components={{
-                        Day: (props) => {
-                          const day = props.day.date;
+                        Day: (
+                          props: {
+                            day?: { date: Date };
+                          } & React.HTMLAttributes<HTMLDivElement>
+                        ) => {
+                          const dayDate: Date = props.day?.date || new Date();
                           const isToday =
-                            day.toDateString() === new Date().toDateString();
+                            dayDate.toDateString() ===
+                            new Date().toDateString();
 
                           return (
                             <div
+                              {...props}
                               className={cn(
                                 "flex flex-1 items-center justify-center text-[10px] mb-0.5",
-                                isToday && "bg-[#605BFF]/20 "
+                                isToday && "bg-[#605BFF]/20"
                               )}
                             >
-                              {day.getDate()}
+                              {dayDate.getDate()}
                             </div>
                           );
                         },

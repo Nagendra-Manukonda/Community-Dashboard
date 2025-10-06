@@ -24,7 +24,14 @@ export default function Settingspage() {
     "List" | "Board" | "Timeline"
   >("Timeline");
 
-  const [tasksByDate, setTasksByDate] = useState<Record<string, any[]>>({
+  type TaskType = {
+    time: number;
+    label: string;
+    color: string;
+    priority: "Low" | "Medium" | "High";
+  };
+
+  const [tasksByDate] = useState<Record<string, TaskType[]>>({
     [new Date().toDateString()]: [
       {
         time: 9,

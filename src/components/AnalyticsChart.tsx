@@ -15,7 +15,7 @@ export default function AnalyticsChart() {
     .filter((entry) => entry.name !== "Empty")
     .reduce((sum, entry) => sum + entry.value, 0);
 
-  const percentage = Math.round((data[0].value / totalReal) * 100);
+  // const percentage = Math.round((data[0].value / totalReal) * 100);
 
   const legendData = data.filter((entry) => entry.name !== "Empty");
 

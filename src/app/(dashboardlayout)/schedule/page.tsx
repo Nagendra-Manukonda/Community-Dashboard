@@ -134,10 +134,15 @@ export default function ScheduleListpage() {
               onSelect={setDate}
               className="w-full rounded-lg border"
               components={{
-                Day: ({ date, ...props }: { date?: Date } & any) => {
-                  if (!date) return <td {...props} />;
+                Day: ({
+                  date,
+                  ...props
+                }: { date?: Date } & React.HTMLAttributes<HTMLDivElement>) => {
+                  if (!date) return <div {...props} />;
+
                   const isToday =
                     date.toDateString() === new Date().toDateString();
+
                   return (
                     <div
                       {...props}

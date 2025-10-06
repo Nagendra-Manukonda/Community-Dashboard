@@ -26,7 +26,7 @@ interface InvoiceFormProps {
   onCancel?: () => void;
 }
 
-const InvoiceForm: React.FC<InvoiceFormProps> = ({ onCancel }) => {
+const InvoiceForm: React.FC<InvoiceFormProps> = ({}) => {
   const [invoice, setInvoice] = useState<Invoice>({
     id: "",
     name: "",

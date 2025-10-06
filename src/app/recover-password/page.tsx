@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function RecoverPage() {
   const [password, setPassword] = useState("");
@@ -31,7 +32,7 @@ export default function RecoverPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F9F9FF]">
       <Card className="w-full max-w-xl p-6">
         <CardHeader className="flex flex-col justify-center items-center mb-4">
-          <img
+          <Image
             src="/art.png"
             alt="community-icon"
             width={96}

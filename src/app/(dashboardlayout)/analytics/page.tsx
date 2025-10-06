@@ -19,7 +19,6 @@ import {
   MoreHorizontal,
   Pencil,
   Phone,
-  PictureInPicture,
   Plus,
   Trash,
 } from "lucide-react";

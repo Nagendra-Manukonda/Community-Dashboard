@@ -11,7 +11,6 @@ import {
   Trash2,
   MoreHorizontal,
   Star,
-  Pen,
   Pencil,
   Trash,
 } from "lucide-react";
@@ -180,13 +179,12 @@ export default function InvoiceMain() {
         </div>
       ),
       cell: ({ row }) => {
-        const { name, image, id } = row.original;
+        const { name, image } = row.original;
         const initials = name
           .split(" ")
           .map((n) => n[0])
           .join("")
           .toUpperCase();
-        const isStarred = starredIds.has(id);
 
         return (
           <div className="flex items-center gap-4">

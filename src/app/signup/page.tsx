@@ -22,7 +22,7 @@ export default function SignInpage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -35,8 +35,12 @@ export default function SignInpage() {
     e.preventDefault();
 
     if (email && password) {
-      Cookies.set("token", "my-secret-token", { expires: rememberMe ? 7 : undefined }); 
-      Cookies.set("user", JSON.stringify({ email }), { expires: rememberMe ? 7 : undefined });
+      Cookies.set("token", "my-secret-token", {
+        expires: rememberMe ? 7 : undefined,
+      });
+      Cookies.set("user", JSON.stringify({ email }), {
+        expires: rememberMe ? 7 : undefined,
+      });
 
       router.push("/dashboard");
     } else {
@@ -49,7 +53,7 @@ export default function SignInpage() {
       <div className="w-full md:w-1/2 flex justify-center md:justify-start mb-10 md:ml-10 px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="flex flex-col justify-center items-center mb-4">
-            <img
+            <Image
               src="/art.png"
               alt="community-icon"
               width={96}
@@ -61,17 +65,30 @@ export default function SignInpage() {
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
-                <Image src="/google.png" alt="google" width={20} height={20} className="mr-2" />
+                <Image
+                  src="/google.png"
+                  alt="google"
+                  width={20}
+                  height={20}
+                  className="mr-2"
+                />
                 Google
               </Button>
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
-                <Image src="/facebook.png" alt="facebook" width={20} height={20} className="mr-2" />
+                <Image
+                  src="/facebook.png"
+                  alt="facebook"
+                  width={20}
+                  height={20}
+                  className="mr-2"
+                />
                 Facebook
               </Button>
             </div>
 
             <div className="flex items-center gap-3 text-gray-400">
-              <span className="flex-1 h-px bg-gray-200" /> Or <span className="flex-1 h-px bg-gray-200" />
+              <span className="flex-1 h-px bg-gray-200" /> Or{" "}
+              <span className="flex-1 h-px bg-gray-200" />
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
@@ -137,13 +154,22 @@ export default function SignInpage() {
                   id="terms"
                   className="h-4 w-4 border border-[#030229]/70 cursor-pointer bg-white text-[#030229] focus:ring-0 mt-1"
                 />
-                <label htmlFor="terms" className="font-normal w-80 h-11 text-[#030229]">
+                <label
+                  htmlFor="terms"
+                  className="font-normal w-80 h-11 text-[#030229]"
+                >
                   By creating an account you agree to the <br />
-                  <Link href="/terms" className="text-[#605BFF] hover:underline">
+                  <Link
+                    href="/terms"
+                    className="text-[#605BFF] hover:underline"
+                  >
                     terms of use
                   </Link>{" "}
                   and our{" "}
-                  <Link href="/privacy" className="text-[#605BFF] hover:underline">
+                  <Link
+                    href="/privacy"
+                    className="text-[#605BFF] hover:underline"
+                  >
                     privacy policy.
                   </Link>
                 </label>
@@ -158,7 +184,10 @@ export default function SignInpage() {
           <CardFooter className="flex justify-center">
             <p className="text-sm">
               Already have an account?{" "}
-              <span onClick={() => router.push("/login")} className="text-[#605BFF] hover:underline cursor-pointer">
+              <span
+                onClick={() => router.push("/login")}
+                className="text-[#605BFF] hover:underline cursor-pointer"
+              >
                 Log in
               </span>{" "}
             </p>
@@ -167,7 +196,13 @@ export default function SignInpage() {
       </div>
 
       <div className="w-full md:w-1/2 flex justify-center">
-        <Image src="/Illustration.svg" alt="Illustration" width={447} height={402} className="max-w-[90%] md:max-w-lg lg:max-w-md" />
+        <Image
+          src="/Illustration.svg"
+          alt="Illustration"
+          width={447}
+          height={402}
+          className="max-w-[90%] md:max-w-lg lg:max-w-md"
+        />
       </div>
     </div>
   );

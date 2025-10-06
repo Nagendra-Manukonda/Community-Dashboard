@@ -11,7 +11,6 @@ import {
   Trash2,
   MoreHorizontal,
   Star,
-  Pen,
   Pencil,
   Trash,
 } from "lucide-react";
@@ -24,7 +23,6 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import Image from "next/image";
-import InvoiceForm from "@/components/CreateInvoiceForm";
 import Link from "next/link";
 
 interface Invoice {

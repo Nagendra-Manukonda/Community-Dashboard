@@ -164,7 +164,7 @@ export default function Loginpage() {
 
           <CardFooter className="flex justify-center mt-4">
             <p className="text-sm">
-              Don't have an account yet?{" "}
+              Don&apos;t have an account yet?{" "}
               <span
                 onClick={() => router.push("/signup")}
                 className="text-[#605BFF] hover:underline cursor-pointer"

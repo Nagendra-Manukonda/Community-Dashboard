@@ -8,6 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   DotProps,
+  TooltipProps,
 } from "recharts";
 
 const data = [
@@ -21,7 +22,7 @@ const data = [
   { time: "05am", value: 30, sales: 1800 },
   { time: "06am", value: 65, sales: 3000 },
   { time: "07am", value: 58, sales: 3100 },
-  { time: "    ", value: 75, sales: 3313 },
+  { time: "08am", value: 75, sales: 3313 },
 ];
 
 interface CustomDotProps extends DotProps {
@@ -30,9 +31,9 @@ interface CustomDotProps extends DotProps {
 }
 
 const CustomDot = ({ cx, cy, index, payload }: CustomDotProps) => {
-  if (typeof index !== "number") return null;
+  if (typeof index !== "number" || cx == null || cy == null) return null;
   if (index < 2 || index > data.length - 3) return null;
-  if (payload?.time === "02am" || payload?.time === "04am") return null;
+  if (payload?.time === "02pm" || payload?.time === "04pm") return null;
 
   return (
     <circle
@@ -46,20 +47,20 @@ const CustomDot = ({ cx, cy, index, payload }: CustomDotProps) => {
   );
 };
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
+    const sales = payload[0].payload?.sales;
     return (
-      <div className="bg-[#0F0F2D] w-20 h-12 font-normal leading-[100%]  text-[#FFFFFF]/80 px-3 py-1.5 flex-col flex justify-center items-center rounded-[10px] shadow-md text-xs">
+      <div className="bg-[#0F0F2D] w-20 h-12 font-normal text-[#FFFFFF]/80 px-3 py-1.5 flex flex-col justify-center items-center rounded-[10px] shadow-md text-xs">
         Sales
-        <h1 className="font-semibold text-sm text-[#FFFFFF] leading-[100%]">
-          {payload[0].payload.sales.toLocaleString()}
+        <h1 className="font-semibold text-sm text-[#FFFFFF]">
+          {sales?.toLocaleString()}
         </h1>
       </div>
     );
   }
   return null;
 };
-
 export default function SalesChart() {
   const colorFrom = "#5BC4FF";
   const colorTo = "#FF5BEF";
