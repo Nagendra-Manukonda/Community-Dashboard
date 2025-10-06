@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function DashboardLayout({
   children,
@@ -15,16 +16,16 @@ export default function DashboardLayout({
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token"); // ✅ Use cookie here
 
     if (!token) {
       router.push("/login");
+    } else {
+      setIsLoading(false); // ✅ Only allow render when token is confirmed
     }
-
-    setIsLoading(false);
   }, [router]);
 
-  if (isLoading) return null;
+  if (isLoading) return null; // ✅ Prevent flicker
 
   return (
     <SidebarProvider>

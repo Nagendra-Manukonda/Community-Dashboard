@@ -23,13 +23,30 @@ export default function Loginpage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  // Hydration fix: Only check for token after component mounts
+  const [isLoading, setIsLoading] = useState(true);
+  const [canRender, setCanRender] = useState(false);
+
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
+      // If there's a token, do not render this page; redirect in handle or by middleware
       router.push("/dashboard");
+    } else {
+      // No token means we should render login page
+      setCanRender(true);
     }
-  }, [router]);
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    // Still checking, render nothing
+    return null;
+  }
+
+  if (!canRender) {
+    // If we determined it's not for this page (user is already authenticated), render nothing
+    return null;
+  }
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +54,6 @@ export default function Loginpage() {
     if (email === "admin@test.com" && password === "123456") {
       const token = "my-secret-token";
 
-      // Save the token and user info to cookies
       Cookies.set("token", token, { expires: rememberMe ? 7 : undefined });
       Cookies.set("user", JSON.stringify({ email, rememberMe }), {
         expires: rememberMe ? 7 : undefined,

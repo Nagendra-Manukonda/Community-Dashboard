@@ -44,7 +44,7 @@ export default function RecoverPage() {
         <CardContent>
           <form onSubmit={handleRecover} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="password">New Password</Label>
+              1<Label htmlFor="password">New Password</Label>
               <div className="relative">
                 <Input
                   id="password"
