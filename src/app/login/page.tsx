@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
@@ -23,24 +23,10 @@ export default function Loginpage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      router.push("/dashboard");
-    } else {
-      setIsCheckingAuth(false);
-    }
-  }, [router]);
-
-  // Only one check is needed
-  if (isCheckingAuth)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
-      </div>
-    );
+  // -------------------------
+  // Removed useEffect and isCheckingAuth
+  // Middleware handles redirect, no flicker needed
+  // -------------------------
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
