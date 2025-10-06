@@ -29,7 +29,7 @@ export default function DashboardLayout({
   }, [router]);
 
   if (checkingAuth) {
-    return <div className="h-screen w-screen bg-white" />; // Blank screen while checking
+    return <div className="h-screen w-screen bg-white" />;
   }
 
   if (!isAuthenticated) return null;
