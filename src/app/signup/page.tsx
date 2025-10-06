@@ -17,44 +17,42 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-export default function SignInpage() {
+export default function SignInPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      setIsAuthenticated(true);
-      // ❌ REMOVE THIS LINE:
-      // router.push("/dashboard");
-    } else {
-      setIsAuthenticated(false);
-    }
+    setHasMounted(true);
   }, []);
 
-  if (isAuthenticated === null) return null;
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (email && password) {
-      Cookies.set("token", "my-secret-token", {
-        expires: rememberMe ? 7 : undefined,
-      });
-      Cookies.set("user", JSON.stringify({ email }), {
-        expires: rememberMe ? 7 : undefined,
-      });
-
-      router.push("/dashboard"); // ✅ Keep this — it's after login.
-    } else {
+    if (!email || !password) {
       alert("Please enter email and password");
+      return;
     }
+
+    // Example "create account" logic
+    const token = "my-secret-token"; // In real app, get from server
+
+    Cookies.set("token", token, {
+      expires: rememberMe ? 7 : undefined,
+    });
+
+    Cookies.set("user", JSON.stringify({ email }), {
+      expires: rememberMe ? 7 : undefined,
+    });
+
+    router.push("/dashboard");
   };
+
+  if (!hasMounted) return null;
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-[#F9F9FF]">
@@ -68,8 +66,11 @@ export default function SignInpage() {
               height={96}
               className="mb-4"
             />
-            <h1 className="font-semibold text-xl text-[#000000]">Sign In</h1>
+            <h1 className="font-semibold text-xl text-[#000000]">
+              Create Account
+            </h1>
           </CardHeader>
+
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
@@ -95,11 +96,12 @@ export default function SignInpage() {
             </div>
 
             <div className="flex items-center gap-3 text-gray-400">
-              <span className="flex-1 h-px bg-gray-200" /> Or{" "}
+              <span className="flex-1 h-px bg-gray-200" />
+              Or
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleSignup} className="space-y-4">
               <div className="space-y-3">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -125,9 +127,9 @@ export default function SignInpage() {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="Username">Username</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="Username"
+                  id="username"
                   type="text"
                   placeholder="Enter your username"
                   required
@@ -157,20 +159,6 @@ export default function SignInpage() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) =>
-                    setRememberMe(checked as boolean)
-                  }
-                  className="h-4 w-4 border border-[#030229]/70 bg-white cursor-pointer focus:ring-0"
-                />
-                <Label htmlFor="remember" className="text-sm">
-                  Remember me
-                </Label>
-              </div>
-
               <div className="flex w-full justify-center space-x-2">
                 <Checkbox
                   id="terms"
@@ -197,7 +185,10 @@ export default function SignInpage() {
                 </label>
               </div>
 
-              <Button className="bg-[#605BFF] cursor-pointer hover:bg-blue-700 rounded-[10px] font-semibold">
+              <Button
+                type="submit"
+                className="bg-[#605BFF] cursor-pointer hover:bg-blue-700 rounded-[10px] font-semibold"
+              >
                 Create account
               </Button>
             </form>
@@ -211,7 +202,7 @@ export default function SignInpage() {
                 className="text-[#605BFF] hover:underline cursor-pointer"
               >
                 Log in
-              </span>{" "}
+              </span>
             </p>
           </CardFooter>
         </Card>

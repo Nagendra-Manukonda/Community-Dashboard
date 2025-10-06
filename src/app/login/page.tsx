@@ -16,45 +16,30 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function Loginpage() {
+export default function LoginPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [canRender, setCanRender] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      // If there's a token, do not render this page; redirect in handle or by middleware
-      router.push("/dashboard");
-    } else {
-      // No token means we should render login page
-      setCanRender(true);
-    }
-    setIsLoading(false);
+    setHasMounted(true);
   }, []);
-
-  if (isLoading) {
-    // Still checking, render nothing
-    return null;
-  }
-
-  if (!canRender) {
-    // If we determined it's not for this page (user is already authenticated), render nothing
-    return null;
-  }
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Example login check — replace with real API in production
     if (email === "admin@test.com" && password === "123456") {
-      const token = "my-secret-token";
+      const token = "my-secret-token"; // This would be your JWT from API
 
-      Cookies.set("token", token, { expires: rememberMe ? 7 : undefined });
+      Cookies.set("token", token, {
+        expires: rememberMe ? 7 : undefined,
+      });
+
       Cookies.set("user", JSON.stringify({ email, rememberMe }), {
         expires: rememberMe ? 7 : undefined,
       });
@@ -64,6 +49,8 @@ export default function Loginpage() {
       alert("Invalid credentials");
     }
   };
+
+  if (!hasMounted) return null;
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-[#F9F9FF]">
@@ -154,7 +141,6 @@ export default function Loginpage() {
                     onCheckedChange={(checked) =>
                       setRememberMe(checked as boolean)
                     }
-                    className="h-4 w-4 border border-[#030229]/70 bg-white cursor-pointer focus:ring-0"
                   />
                   <Label htmlFor="remember" className="text-sm">
                     Remember me

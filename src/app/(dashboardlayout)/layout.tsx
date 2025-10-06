@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 
 export default function DashboardLayout({
   children,
@@ -12,20 +10,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("token"); // ✅ Use cookie here
+    setHasMounted(true);
+  }, []);
 
-    if (!token) {
-      router.push("/login");
-    } else {
-      setIsLoading(false); // ✅ Only allow render when token is confirmed
-    }
-  }, [router]);
-
-  if (isLoading) return null; // ✅ Prevent flicker
+  if (!hasMounted) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -37,7 +34,6 @@ export default function DashboardLayout({
         >
           <DashboardSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         </div>
-
         <div className="flex-1 flex flex-col overflow-auto">
           <main className="flex-1 p-2">{children}</main>
         </div>
