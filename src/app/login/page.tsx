@@ -34,8 +34,7 @@ export default function Loginpage() {
     }
   }, [router]);
 
-  if (isCheckingAuth) return null;
-
+  // Only one check is needed
   if (isCheckingAuth)
     return (
       <div className="flex items-center justify-center min-h-screen">
