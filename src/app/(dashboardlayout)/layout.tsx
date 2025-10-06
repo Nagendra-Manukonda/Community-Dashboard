@@ -16,14 +16,6 @@ export default function DashboardLayout({
     setHasMounted(true);
   }, []);
 
-  if (!hasMounted) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        Loading...
-      </div>
-    );
-  }
-
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full overflow-hidden">
