@@ -24,12 +24,19 @@ export default function SignInpage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe] = useState(false);
 
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
+      setIsAuthenticated(true);
       router.push("/dashboard");
+    } else {
+      setIsAuthenticated(false);
     }
   }, [router]);
+
+  if (isAuthenticated === null) return null;
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

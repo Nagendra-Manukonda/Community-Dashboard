@@ -23,12 +23,25 @@ export default function Loginpage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
       router.push("/dashboard");
+    } else {
+      setIsCheckingAuth(false);
     }
   }, [router]);
+
+  if (isCheckingAuth) return null;
+
+  if (isCheckingAuth)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

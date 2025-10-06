@@ -6,22 +6,18 @@ import DashboardMain from "@/components/DashboardMain";
 
 export default function DashboardLayout() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (!token) {
       router.push("/login");
     } else {
-      setLoading(false);
+      setIsAuthenticated(true);
     }
   }, [router]);
 
-  if (loading) return null;
+  if (isAuthenticated === null) return null;
 
-  return (
-    <div>
-      <DashboardMain />
-    </div>
-  );
+  return <DashboardMain />;
 }
