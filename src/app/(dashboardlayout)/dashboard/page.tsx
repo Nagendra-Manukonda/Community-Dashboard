@@ -6,7 +6,8 @@ import DashboardMain from "@/components/DashboardMain";
 
 export default function DashboardLayout() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [checkedAuth, setCheckedAuth] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -15,9 +16,10 @@ export default function DashboardLayout() {
     } else {
       setIsAuthenticated(true);
     }
+    setCheckedAuth(true);
   }, [router]);
 
-  if (isAuthenticated === null) return null;
+  if (!checkedAuth) return null;
 
-  return <DashboardMain />;
+  return isAuthenticated ? <DashboardMain /> : null;
 }
