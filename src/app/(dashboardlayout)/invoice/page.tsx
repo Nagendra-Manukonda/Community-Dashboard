@@ -126,7 +126,11 @@ export default function InvoiceMain() {
   const toggleStar = (id: string) => {
     setStarredIds((prev) => {
       const newSet = new Set(prev);
-      newSet.has(id) ? newSet.delete(id) : newSet.add(id);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
       return newSet;
     });
   };
@@ -186,7 +190,6 @@ export default function InvoiceMain() {
           .map((n) => n[0])
           .join("")
           .toUpperCase();
-        const isStarred = starredIds.has(id);
 
         return (
           <div className="flex items-center gap-4">

@@ -9,7 +9,7 @@ import { CalendarDays, Clock, MapPin, Plus, Search, User } from "lucide-react";
 import React, { useState } from "react";
 
 type DayProps = {
-  date: Date;
+  day?: { date: Date };
   selected?: boolean;
   today?: boolean;
   outside?: boolean;
@@ -172,11 +172,7 @@ export default function Calendarpage() {
               onSelect={setDate}
               className="w-full rounded-lg border"
               components={{
-                Day: (
-                  props: {
-                    day?: { date: Date };
-                  } & React.HTMLAttributes<HTMLDivElement>
-                ) => {
+                Day: (props: DayProps) => {
                   const dayDate: Date = props.day?.date || new Date();
                   const isToday =
                     dayDate.toDateString() === new Date().toDateString();

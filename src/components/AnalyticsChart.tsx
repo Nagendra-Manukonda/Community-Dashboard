@@ -15,7 +15,7 @@ export default function AnalyticsChart() {
     .filter((entry) => entry.name !== "Empty")
     .reduce((sum, entry) => sum + entry.value, 0);
 
-  // const percentage = Math.round((data[0].value / totalReal) * 100);
+  const percentage = Math.round((data[0].value / totalReal) * 100);
 
   const legendData = data.filter((entry) => entry.name !== "Empty");
 
@@ -44,7 +44,9 @@ export default function AnalyticsChart() {
         </ResponsiveContainer>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-extrabold text-[#030229]">{80}%</span>
+          <span className="text-3xl font-extrabold text-[#030229]">
+            {percentage}%
+          </span>
           <span className="text-xs text-[#030229]/70">Transactions</span>
         </div>
       </div>

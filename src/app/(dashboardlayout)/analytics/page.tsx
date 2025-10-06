@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { TooltipProps } from "recharts";
 import { Separator } from "@/components/ui/separator";
 import {
   Camera,
@@ -57,14 +58,14 @@ const formatValue = (val: number) => {
   return val;
 };
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     return (
       <div
         className="rounded-md px-1 flex flex-col justify-center items-baseline align-top py-1 text-white text-xs"
         style={{ backgroundColor: "#FF8F6B" }}
       >
-        {formatValue(payload[0].value)}
+        {formatValue(payload[0].value as number)}
       </div>
     );
   }
