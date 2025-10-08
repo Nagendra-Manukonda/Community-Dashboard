@@ -121,7 +121,7 @@ export default function ScheduleListMain() {
                   date,
                   ...props
                 }: { date?: Date } & React.HTMLAttributes<HTMLDivElement>) => {
-                  if (!date) return <div {...props} />;
+                  if (!date) return <td {...props} />;
 
                   const isToday =
                     date.toDateString() === new Date().toDateString();

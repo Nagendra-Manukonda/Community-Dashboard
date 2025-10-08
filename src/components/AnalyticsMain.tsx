@@ -33,9 +33,6 @@ import {
   ResponsiveContainer,
   XAxis,
   Tooltip,
-  RadialBar,
-  PolarAngleAxis,
-  RadialBarChart,
 } from "recharts";
 import {
   useReactTable,
@@ -251,7 +248,7 @@ export default function AnalyticsMain() {
                   </div>
                   <div className="flex flex-col gap-3 text-[#030229]/50">
                     <label className="text-[#030229] text-sm">Gender</label>
-                    <select className="border rounded-[10px] px-3 py-2 text-sm  bg-[#030229]/5">
+                    <select className="border rounded-[10px] cursor-pointer px-3 py-2 text-sm  bg-[#030229]/5">
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="other">Other</option>
@@ -342,7 +339,7 @@ export default function AnalyticsMain() {
             <CardHeader className="pb-2">
               <CardTitle className="flex justify-between font-semibold text-lg text-[#030229] items-center">
                 Performance
-                <EllipsisVertical className="text-[#030229]/30" />
+                <EllipsisVertical className="text-[#030229]/30 cursor-pointer" />
               </CardTitle>
             </CardHeader>
             <CardContent className="h-[160px] px-2">

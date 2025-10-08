@@ -119,12 +119,12 @@ const InvoiceForm: React.FC<InvoiceFormProps> = () => {
             />
           </div>
           <div className="flex-1">
-            <label className="block font-semibold">Date</label>
+            <label className="block font-semibold cursor-pointer">Date</label>
             <Input
               type="date"
               value={invoice.date}
               onChange={(e) => setInvoice({ ...invoice, date: e.target.value })}
-              className="w-full h-[50px] mt-1"
+              className="w-full h-[50px] mt-1 cursor-pointer"
             />
           </div>
         </div>
