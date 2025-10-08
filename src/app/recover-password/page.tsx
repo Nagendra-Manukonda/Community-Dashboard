@@ -53,7 +53,7 @@ export default function RecoverPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-[50px] pr-8 rounded-[10px]"
+                  className="h-[50px] pr-8 w-full rounded-[10px]"
                 />
                 <button
                   type="button"
@@ -74,7 +74,7 @@ export default function RecoverPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="h-[50px] rounded-[10px]"
+                className="h-[50px] w-full rounded-[10px]"
               />
             </div>
             <Button
