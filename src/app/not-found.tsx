@@ -11,8 +11,8 @@ export default function NotFound() {
       <Image
         src="/assets/5060703_2668387.jpg"
         alt="404 Not Found"
-        width={500}
-        height={500}
+        width={400}
+        height={350}
         className="mb-8"
       />
       <h1 className="text-4xl font-bold  text-[#030229] mb-4">
