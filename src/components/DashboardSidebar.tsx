@@ -60,7 +60,7 @@ export default function DashboardSidebar({
       <SidebarHeader className="flex relative items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2">
           <Image
-            src="/assets/art.png"
+            src="/assets/art.svg"
             alt="Logo"
             width={32}
             height={32}
