@@ -177,7 +177,7 @@ export default function LoginPage() {
 
       <div className="w-full md:w-1/2 flex justify-center">
         <Image
-          src="/assets/Illustration.svg"
+          src="/assets/Illustration (3).svg"
           alt="Illustration"
           width={447}
           height={402}
