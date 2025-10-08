@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Nunito, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
-import { link } from "fs";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -9,18 +8,9 @@ const nunito = Nunito({
   weight: ["200", "300", "400", "500", "700", "800", "900"],
 });
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  weight: ["400"],
-});
-
 export const metadata: Metadata = {
   title: "Base",
   description: "Dashboard with Nunito font",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
@@ -30,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${nunito.className}`}>
+      <head>
+        <link rel="icon" href="./icons/favicon.ico.svg" />
+      </head>
       <body>{children}</body>
     </html>
   );
