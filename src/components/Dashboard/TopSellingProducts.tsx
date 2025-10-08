@@ -3,23 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Star } from "lucide-react";
-
-const products = [
-  {
-    id: 1,
-    name: "NIKE Shoes Black Pattern",
-    price: "$87",
-    image: "/Rectangle 53.svg",
-    rating: 4,
-  },
-  {
-    id: 2,
-    name: "iPhone 12",
-    price: "$987",
-    image: "/iPhone-12-2-removebg-preview 1.svg",
-    rating: 4,
-  },
-];
+import { products } from "@/constants/constants";
 
 export function TopSellingProducts() {
   return (

@@ -32,10 +32,8 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Example login check — replace with real API in production
     if (email === "admin@test.com" && password === "123456") {
-      const token = "my-secret-token"; // This would be your JWT from API
-
+      const token = "my-secret-token";
       Cookies.set("token", token, {
         expires: rememberMe ? 7 : undefined,
       });
@@ -58,7 +56,7 @@ export default function LoginPage() {
         <Card className="w-full max-w-md">
           <CardHeader className="flex flex-col justify-center items-center mb-4">
             <Image
-              src="/art.png"
+              src="/assets/art.png"
               alt="community-icon"
               width={96}
               height={96}
@@ -71,7 +69,7 @@ export default function LoginPage() {
             <div className="flex gap-3">
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
                 <Image
-                  src="/google.png"
+                  src="/assets/google.png"
                   alt="google"
                   width={20}
                   height={20}
@@ -81,7 +79,7 @@ export default function LoginPage() {
               </Button>
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
                 <Image
-                  src="/facebook.png"
+                  src="/assets/facebook.png"
                   alt="facebook"
                   width={20}
                   height={20}
@@ -107,7 +105,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-md text-[#030229]/70 font-normal"
+                  className="rounded-md w-full text-[#030229]/70 font-normal"
                 />
               </div>
 
@@ -121,7 +119,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pr-8 rounded-md border w-full text-[#030229]/50"
+                    className="pr-8 rounded-md w-full border  text-[#030229]/50"
                   />
                   <button
                     type="button"
@@ -179,7 +177,7 @@ export default function LoginPage() {
 
       <div className="w-full md:w-1/2 flex justify-center">
         <Image
-          src="/Illustration.svg"
+          src="/assets/Illustration.svg"
           alt="Illustration"
           width={447}
           height={402}

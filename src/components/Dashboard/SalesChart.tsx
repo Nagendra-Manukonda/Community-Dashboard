@@ -10,29 +10,12 @@ import {
   DotProps,
   TooltipProps,
 } from "recharts";
-
-const data = [
-  { time: "10am", value: 55, sales: 2400 },
-  { time: "11am", value: 30, sales: 1800 },
-  { time: "12pm", value: 60, sales: 2000 },
-  { time: "01pm", value: 37, sales: 2200 },
-  { time: "02am", value: 22, sales: 1500 },
-  { time: "03am", value: 50, sales: 2678 },
-  { time: "04am", value: 15, sales: 1200 },
-  { time: "05am", value: 30, sales: 1800 },
-  { time: "06am", value: 65, sales: 3000 },
-  { time: "07am", value: 58, sales: 3100 },
-  { time: "08am", value: 75, sales: 3313 },
-];
-
-interface CustomDotProps extends DotProps {
-  index?: number;
-  payload?: { time: string; value: number; sales: number };
-}
+import { Salesdata } from "@/constants/constants";
+import { CustomDotProps } from "@/types/sales";
 
 const CustomDot = ({ cx, cy, index, payload }: CustomDotProps) => {
   if (typeof index !== "number" || cx == null || cy == null) return null;
-  if (index < 2 || index > data.length - 3) return null;
+  if (index < 2 || index > Salesdata.length - 3) return null;
   if (payload?.time === "02pm" || payload?.time === "04pm") return null;
 
   return (
@@ -68,7 +51,7 @@ export default function SalesChart() {
   return (
     <div className="w-full h-[350px] bg-white rounded-xl p-4">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart data={Salesdata}>
           <defs>
             <linearGradient id="lineGradient" x1="100%" y1="0%" x2="0%" y2="0%">
               <stop offset="0%" stopColor={colorFrom} />

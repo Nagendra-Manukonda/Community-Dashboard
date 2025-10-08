@@ -59,7 +59,7 @@ export default function SignInPage() {
         <Card className="w-full max-w-md">
           <CardHeader className="flex flex-col justify-center items-center mb-4">
             <Image
-              src="/art.png"
+              src="/assets/art.png"
               alt="community-icon"
               width={96}
               height={96}
@@ -74,7 +74,7 @@ export default function SignInPage() {
             <div className="flex gap-3">
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
                 <Image
-                  src="/google.png"
+                  src="/assets/google.png"
                   alt="google"
                   width={20}
                   height={20}
@@ -84,7 +84,7 @@ export default function SignInPage() {
               </Button>
               <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
                 <Image
-                  src="/facebook.png"
+                  src="/assets/facebook.png"
                   alt="facebook"
                   width={20}
                   height={20}
@@ -108,7 +108,7 @@ export default function SignInPage() {
                   type="text"
                   placeholder="Enter your full name"
                   required
-                  className="rounded-md text-[#030229]/70 border font-normal"
+                  className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
               </div>
 
@@ -121,7 +121,7 @@ export default function SignInPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-md text-[#030229]/70 border font-normal"
+                  className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
               </div>
 
@@ -132,7 +132,7 @@ export default function SignInPage() {
                   type="text"
                   placeholder="Enter your username"
                   required
-                  className="rounded-md text-[#030229]/70 border font-normal"
+                  className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
               </div>
 
@@ -146,7 +146,7 @@ export default function SignInPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pr-8 rounded-md border text-[#030229]/50"
+                    className="pr-8 w-full rounded-md border text-[#030229]/50"
                   />
                   <button
                     type="button"
@@ -211,7 +211,7 @@ export default function SignInPage() {
 
       <div className="w-full md:w-1/2 flex justify-center">
         <Image
-          src="/Illustration.svg"
+          src="/assets/Illustration.svg"
           alt="Illustration"
           width={447}
           height={402}

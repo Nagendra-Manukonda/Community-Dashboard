@@ -10,42 +10,8 @@ import {
 } from "@/components/ui/table";
 
 import { ChevronDown } from "lucide-react";
+import { orders } from "@/constants/constants";
 import Image from "next/image";
-
-const orders = [
-  {
-    trackingNo: "#876264",
-    productName: "Camera Lens",
-    productImage: "/Rectangle 91.svg",
-    price: "$178",
-    totalOrder: 325,
-    totalAmount: "$1,46,660",
-  },
-  {
-    trackingNo: "#876368",
-    productName: "Black Sleep Dress",
-    productImage: "/Rectangle 90.svg",
-    price: "$14",
-    totalOrder: 53,
-    totalAmount: "$46,660",
-  },
-  {
-    trackingNo: "#876412",
-    productName: "Argan Oil",
-    productImage: "/Rectangle 111.svg",
-    price: "$21",
-    totalOrder: 78,
-    totalAmount: "$3,46,676",
-  },
-  {
-    trackingNo: "#876621",
-    productName: "EAU DE Parfum",
-    productImage: "/Rectangle 110.svg",
-    price: "$32",
-    totalOrder: 98,
-    totalAmount: "$3,46,981",
-  },
-];
 
 export function RecentOrders() {
   return (

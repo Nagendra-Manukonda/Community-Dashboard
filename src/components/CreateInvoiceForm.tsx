@@ -4,29 +4,9 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MapPin, Trash, ChevronDown, FileText, Plus } from "lucide-react";
+import { Product, Invoice, InvoiceFormProps } from "@/types/createinvoice";
 
-interface Product {
-  name: string;
-  rate: string;
-  qty: number;
-  amount: string;
-}
-
-interface Invoice {
-  id: string;
-  name: string;
-  email: string;
-  date: string;
-  address: string;
-  status: "Pending" | "Complete" | "Cancel";
-  products: Product[];
-}
-
-interface InvoiceFormProps {
-  onCancel?: () => void;
-}
-
-const InvoiceForm: React.FC<InvoiceFormProps> = ({}) => {
+const InvoiceForm: React.FC<InvoiceFormProps> = () => {
   const [invoice, setInvoice] = useState<Invoice>({
     id: "",
     name: "",

@@ -2,22 +2,20 @@
 
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-
-const data = [
-  { name: "Sale", value: 35.15, color: "#5B93FF" },
-  { name: "Distribute", value: 20.07, color: "#FFD66B" },
-  { name: "Return", value: 25.76, color: "#FF8F6B" },
-  { name: "Empty", value: 20, color: "transparent" },
-];
+import { AnalyticsChartdata } from "@/constants/constants";
 
 export default function AnalyticsChart() {
-  const totalReal = data
-    .filter((entry) => entry.name !== "Empty")
-    .reduce((sum, entry) => sum + entry.value, 0);
+  const totalReal = AnalyticsChartdata.filter(
+    (entry) => entry.name !== "Empty"
+  ).reduce((sum, entry) => sum + entry.value, 0);
 
-  const percentage = Math.round((data[0].value / totalReal) * 100);
+  const percentage = Math.round(
+    (AnalyticsChartdata[0].value / totalReal) * 185
+  );
 
-  const legendData = data.filter((entry) => entry.name !== "Empty");
+  const legendData = AnalyticsChartdata.filter(
+    (entry) => entry.name !== "Empty"
+  );
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
@@ -25,7 +23,7 @@ export default function AnalyticsChart() {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={AnalyticsChartdata}
               cx="50%"
               cy="50%"
               innerRadius={70}
@@ -36,7 +34,7 @@ export default function AnalyticsChart() {
               dataKey="value"
               stroke="none"
             >
-              {data.map((entry, index) => (
+              {AnalyticsChartdata.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>

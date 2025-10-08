@@ -18,7 +18,11 @@ export default function DashboardHeader() {
   return (
     <header className="flex h-[var(--header-height)] shrink-0 items-center mt-7 px-4 bg-white">
       <div className="flex flex-1 flex-row justify-between items-center">
-        <h1 className="font-bold text-lg leading-[100%]">Dashboard</h1>
+        <h1
+          className={`font-bold text-lg leading-[100%] {geistMono.className}`}
+        >
+          Dashboard
+        </h1>
 
         <div className="flex items-center gap-3 text-[#030229]/70 hover:text-[#030229]/70">
           <Popover>

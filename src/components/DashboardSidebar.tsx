@@ -60,7 +60,7 @@ export default function DashboardSidebar({
       <SidebarHeader className="flex relative items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2">
           <Image
-            src="/art.png"
+            src="/assets/art.png"
             alt="Logo"
             width={32}
             height={32}
@@ -179,7 +179,7 @@ export default function DashboardSidebar({
         {!collapsed && (
           <div className="flex flex-col items-center gap-2 mt-6">
             <Image
-              src="/Illustration (2).svg"
+              src="/assets/Illustration (2).svg"
               alt="Upgrade"
               width={90}
               height={90}
@@ -203,7 +203,7 @@ export default function DashboardSidebar({
                 }`}
               >
                 <Avatar className="w-9 h-9 cursor-pointer">
-                  <AvatarImage src="/Profile photo.svg" alt="User" />
+                  <AvatarImage src="/assets/Profile photo.svg" alt="User" />
                   <AvatarFallback>EA</AvatarFallback>
                 </Avatar>
                 {!collapsed && (

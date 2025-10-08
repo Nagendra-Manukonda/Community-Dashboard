@@ -4,7 +4,7 @@ import DashboardMain from "@/components/DashboardMain";
 
 export default function DashboardLayout() {
   return (
-    <div className="">
+    <div>
       <DashboardMain />
     </div>
   );

@@ -33,7 +33,7 @@ export default function RecoverPage() {
       <Card className="w-full max-w-xl p-6">
         <CardHeader className="flex flex-col justify-center items-center mb-4">
           <Image
-            src="/art.png"
+            src="/assets/art.png"
             alt="community-icon"
             width={96}
             height={96}

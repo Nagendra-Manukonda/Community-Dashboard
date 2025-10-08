@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import {
   Plus,
   Search,
@@ -14,8 +14,8 @@ import {
   Pencil,
   Trash,
 } from "lucide-react";
-import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   useReactTable,
   getCoreRowModel,
@@ -23,101 +23,12 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import Image from "next/image";
-
-interface Invoice {
-  id: string;
-  name: string;
-  image: string;
-  email: string;
-  date: string;
-  status: "Complete" | "Pending" | "Cancel";
-}
-
-const defaultData: Invoice[] = [
-  {
-    id: "#876364",
-    image: "/Group 465.svg",
-    name: "Arrora gaur",
-    email: "arroragaur@gmail.com",
-    date: "12 Dec, 2020",
-    status: "Complete",
-  },
-  {
-    id: "#876123",
-    image: "/Group 466.svg",
-    name: "James Mullican",
-    email: "jamesmullican@gmail.com",
-    date: "10 Dec, 2020",
-    status: "Pending",
-  },
-  {
-    id: "#876213",
-    image: "/Group 469.svg",
-    name: "Robert Bacins",
-    email: "robertbacins@gmail.com",
-    date: "09 Dec, 2020",
-    status: "Complete",
-  },
-  {
-    id: "#876987",
-    image: "/Group 472.svg",
-    name: "Bethany Jackson",
-    email: "bethanyjackson@gmail.com",
-    date: "09 Dec, 2020",
-    status: "Cancel",
-  },
-  {
-    id: "#871345",
-    image: "/Group 475.svg",
-    name: "Anne Jacob",
-    email: "annejacob@gmail.com",
-    date: "10 Dec, 2020",
-    status: "Complete",
-  },
-  {
-    id: "#872345",
-    image: "/Group 478.svg",
-    name: "Bethany jackson",
-    email: "bethanyjackson@gmail.com",
-    date: "10 Dec, 2020",
-    status: "Pending",
-  },
-  {
-    id: "#872346",
-    image: "/Group 481.svg",
-    name: "James Mullican",
-    email: "jamesmullican@gmail.com",
-    date: "10 Dec, 2020",
-    status: "Complete",
-  },
-  {
-    id: "#873245",
-    image: "/Group 484.svg",
-    name: "Jhon Deo",
-    email: "jhondeo@gmail.com",
-    date: "08 Dec, 2020",
-    status: "Complete",
-  },
-  {
-    id: "#876364",
-    name: "Bethany jackson",
-    image: "/Group 487.svg",
-    email: "bethanyjackson@gmail.com",
-    date: "02 Dec, 2020",
-    status: "Cancel",
-  },
-  {
-    id: "#878769",
-    image: "/Group 490.svg",
-    name: "James Mullican",
-    email: "jamesmullican@gmail.com",
-    date: "01 Dec, 2020",
-    status: "Pending",
-  },
-];
+import Link from "next/link";
+import { Invoice } from "@/types/Invoice";
+import { invoiceDefaultData } from "@/constants/constants";
 
 export default function InvoiceMain() {
-  const [data] = useState(() => [...defaultData]);
+  const [data] = useState(() => [...invoiceDefaultData]);
   const [search, setSearch] = useState("");
   const [starredIds, setStarredIds] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -165,7 +76,7 @@ export default function InvoiceMain() {
       header: () => (
         <div className="flex items-center gap-3">
           <span>Invoice ID</span>
-          <ChevronDown className="w-3 h-3 items-center text-[#030229]/50" />
+          <ChevronDown className="w-3 h-3 items-center fill-[#030229]" />
         </div>
       ),
       cell: ({ row }) => (
@@ -179,7 +90,7 @@ export default function InvoiceMain() {
       header: () => (
         <div className="flex items-center gap-3">
           <span>Name</span>
-          <ChevronDown className="w-3 h-3 items-center text-[#030229]/50" />
+          <ChevronDown className="w-3 h-3 items-center fill-[#030229]" />
         </div>
       ),
       cell: ({ row }) => {
@@ -215,7 +126,7 @@ export default function InvoiceMain() {
       header: () => (
         <div className="flex items-center gap-3">
           <span>Email</span>
-          <ChevronDown className="w-3 h-3 items-center text-[#030229]/50" />
+          <ChevronDown className="w-3 h-3 items-center fill-[#030229]" />
         </div>
       ),
       cell: ({ row }) => (
@@ -230,7 +141,7 @@ export default function InvoiceMain() {
       header: () => (
         <div className="flex items-center gap-3">
           <span>Date</span>
-          <ChevronDown className="w-3 h-3 items-center text-[#030229]/50" />
+          <ChevronDown className="w-3 h-3 items-center fill-[#030229]" />
         </div>
       ),
       cell: ({ row }) => (
@@ -245,7 +156,7 @@ export default function InvoiceMain() {
       header: () => (
         <div className="flex items-center gap-3">
           <span>Status</span>
-          <ChevronDown className="w-3 h-3 items-center text-[#030229]/70" />
+          <ChevronDown className="w-3 h-3 items-center fill-[#030229]" />
         </div>
       ),
       cell: ({ row }) => {
@@ -356,10 +267,11 @@ export default function InvoiceMain() {
               />
               <Search className="text-[#000000]/50 absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4" />
             </div>
-            <Button className="bg-[#605BFF]/90 hover:bg-[#605BFF] flex items-center gap-1 text-white">
-              <Plus className="w-4 h-4" />
-              Add New
-            </Button>
+            <Link href="/invoice/add">
+              <Button className="bg-[#605BFF] flex items-center gap-1 text-white">
+                <Plus className="w-4 h-4" /> Add New
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -388,7 +300,7 @@ export default function InvoiceMain() {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="hover:bg-gray-50 transition-transform  duration-300"
+                className="transition-transform  duration-200 rounded-[10px] hover:-translate-y-3 hover:shadow-lg shadow-[#605BFF]/40"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td

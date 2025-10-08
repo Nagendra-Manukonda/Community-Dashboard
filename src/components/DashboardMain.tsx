@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Ellipsis } from "lucide-react";
-import SalesChart from "./SalesChart";
-import AnalyticsChart from "./AnalyticsChart";
-import { RecentOrders } from "./RecentOrders";
-import { TopSellingProducts } from "./TopSellingProducts";
+import SalesChart from "./Dashboard/SalesChart";
+import AnalyticsChart from "./Dashboard/AnalyticsChart";
+import { RecentOrders } from "./Dashboard/RecentOrders";
+import { TopSellingProducts } from "./Dashboard/TopSellingProducts";
 import DashboardHeader from "./DashboardHeader";
 import DashboardBanner from "./DashboardBanner";
 
