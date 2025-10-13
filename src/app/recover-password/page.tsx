@@ -52,6 +52,7 @@ export default function RecoverPage() {
                   placeholder="Enter new password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  minLength={6}
                   required
                   className="h-[50px] pr-8 w-full rounded-[10px]"
                 />
@@ -73,6 +74,7 @@ export default function RecoverPage() {
                 placeholder="Re-enter password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                minLength={6}
                 required
                 className="h-[50px] w-full rounded-[10px]"
               />

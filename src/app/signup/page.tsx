@@ -107,7 +107,9 @@ export default function SignInPage() {
                   id="name"
                   type="text"
                   placeholder="Enter your full name"
+                  pattern="^[a-zA-Z\s]{3,}$"
                   required
+                  title="Name should be at least 3 letters and contain only alphabets"
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
               </div>
@@ -120,6 +122,8 @@ export default function SignInPage() {
                   placeholder="example@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  title="Please enter a valid email address"
                   required
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
@@ -132,6 +136,8 @@ export default function SignInPage() {
                   type="text"
                   placeholder="Enter your username"
                   required
+                  pattern="^[a-zA-Z0-9_]{3,}$"
+                  title="Username must be at least 3 characters with no special symbols"
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
               </div>
@@ -146,6 +152,8 @@ export default function SignInPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    minLength={6}
+                    title="Password must be at least 6 characters"
                     className="pr-8 w-full rounded-md border text-[#030229]/50"
                   />
                   <button

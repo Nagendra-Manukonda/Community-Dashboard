@@ -104,6 +104,7 @@ export default function LoginPage() {
                   placeholder="example@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                   required
                   className="rounded-md w-full text-[#030229]/70 font-normal"
                 />
@@ -118,6 +119,7 @@ export default function LoginPage() {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    minLength={6}
                     required
                     className="pr-8 rounded-md w-full border  text-[#030229]/50"
                   />
