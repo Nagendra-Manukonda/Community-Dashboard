@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import cookie from "js-cookie";
 
 export default function DashboardSidebar({
   collapsed,
@@ -37,6 +38,13 @@ export default function DashboardSidebar({
   setCollapsed: (value: boolean) => void;
 }) {
   const pathname = usePathname();
+
+  const handleLogoutIcon = () => {
+    window.location.href = "/login";
+    console.log("Logout clicked");
+    cookie.remove("token");
+    cookie.remove("user");
+  };
 
   const menuButtonClass = (href: string) =>
     `${
@@ -219,6 +227,7 @@ export default function DashboardSidebar({
               </div>
 
               <button
+                onClick={handleLogoutIcon}
                 className={`p-1 text-[#030229]/50 cursor-pointer hover:text-red-500 ${
                   collapsed ? "mt-2" : ""
                 }`}

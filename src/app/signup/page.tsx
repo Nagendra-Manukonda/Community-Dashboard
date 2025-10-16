@@ -1,5 +1,7 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,36 +18,43 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { SignUpFormValues, signUpSchema } from "../Validation/signUpSchema";
 
 export default function SignInPage() {
   const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  const handleSignup = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onChange",
+    defaultValues: {
+      name: "",
+      email: "",
+      username: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
 
-    if (!email || !password) {
-      alert("Please enter email and password");
-      return;
-    }
-
+  const handleSignup = (data: SignUpFormValues) => {
     const token = "my-secret-token";
 
     Cookies.set("token", token, {
-      expires: rememberMe ? 7 : undefined,
+      expires: data.rememberMe ? 7 : undefined,
     });
 
-    Cookies.set("user", JSON.stringify({ email }), {
-      expires: rememberMe ? 7 : undefined,
+    Cookies.set("user", JSON.stringify({ email: data.email }), {
+      expires: data.rememberMe ? 7 : undefined,
     });
 
     router.push("/dashboard");
@@ -100,18 +109,18 @@ export default function SignInPage() {
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            <form onSubmit={handleSignup} className="space-y-4">
+            <form onSubmit={handleSubmit(handleSignup)} className="space-y-4">
               <div className="space-y-3">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
                   id="name"
-                  type="text"
                   placeholder="Enter your full name"
-                  pattern="^[a-zA-Z\s]{3,}$"
-                  required
-                  title="Name should be at least 3 letters and contain only alphabets"
+                  {...register("name")}
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
               </div>
 
               <div className="space-y-3">
@@ -120,26 +129,27 @@ export default function SignInPage() {
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                  title="Please enter a valid email address"
-                  required
+                  {...register("email")}
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="space-y-3">
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
-                  type="text"
                   placeholder="Enter your username"
-                  required
-                  pattern="^[a-zA-Z0-9_]{3,}$"
-                  title="Username must be at least 3 characters with no special symbols"
+                  {...register("username")}
                   className="rounded-md w-full text-[#030229]/70 border font-normal"
                 />
+                {errors.username && (
+                  <p className="text-red-500 text-sm">
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-3">
@@ -149,11 +159,7 @@ export default function SignInPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength={6}
-                    title="Password must be at least 6 characters"
+                    {...register("password")}
                     className="pr-8 w-full rounded-md border text-[#030229]/50"
                   />
                   <button
@@ -164,39 +170,50 @@ export default function SignInPage() {
                     {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
-              <div className="flex w-full justify-center space-x-2">
-                <Checkbox
-                  id="rememberMe"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(!!checked)}
-                  className="h-4 w-4 border border-[#030229]/70 cursor-pointer bg-white text-[#030229] focus:ring-0 mt-1"
-                />
-                <label
-                  htmlFor="rememberMe"
-                  className="font-normal w-80 h-11 text-[#030229]"
-                >
-                  By creating an account you agree to the <br />
-                  <Link
-                    href="/terms"
-                    className="text-[#605BFF] hover:underline"
-                  >
-                    terms of use
-                  </Link>{" "}
-                  and our{" "}
-                  <Link
-                    href="/privacy"
-                    className="text-[#605BFF] hover:underline"
-                  >
-                    privacy policy.
-                  </Link>
-                </label>
-              </div>
+              <Controller
+                name="rememberMe"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <div className="flex w-full justify-center space-x-2">
+                    <Checkbox
+                      id="rememberMe"
+                      checked={!!value}
+                      onCheckedChange={(checked) => onChange(!!checked)}
+                      className="h-4 w-4 border border-[#030229]/70 cursor-pointer bg-white text-[#030229] focus:ring-0 mt-1"
+                    />
+                    <label
+                      htmlFor="rememberMe"
+                      className="font-normal w-80 h-11 text-[#030229]"
+                    >
+                      By creating an account you agree to the <br />
+                      <Link
+                        href="/terms"
+                        className="text-[#605BFF] hover:underline"
+                      >
+                        terms of use
+                      </Link>{" "}
+                      and our{" "}
+                      <Link
+                        href="/privacy"
+                        className="text-[#605BFF] hover:underline"
+                      >
+                        privacy policy.
+                      </Link>
+                    </label>
+                  </div>
+                )}
+              />
 
               <Button
                 type="submit"
-                className="bg-[#605BFF] cursor-pointer hover:bg-blue-700 rounded-[10px] font-semibold"
+                className="bg-[#4a44ff] w-full cursor-pointer hover:bg-[#05009e] rounded-[10px] font-semibold"
               >
                 Create account
               </Button>

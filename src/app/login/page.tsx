@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,38 +14,97 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import Image from "next/image";
-import { Eye, EyeOff } from "lucide-react";
+import {
+  LoginFormValues,
+  loginSignupSchema,
+} from "../Validation/loginSignupSchema";
+
+export interface LoginPageProps {
+  initialStep?: STEP;
+}
+
+export interface InputProps {
+  id: string;
+  type?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+}
+
+export interface CheckboxProps {
+  id: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
+
+export interface ButtonProps {
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+  disabled?: boolean;
+  text?: string;
+  icon?: React.ReactNode;
+  className?: string;
+}
+export enum STEP {
+  EMAIL = "EMAIL",
+  PASSWORD = "PASSWORD",
+  FORGOT_PASSWORD = "FORGOT_PASSWORD",
+}
 
 export default function LoginPage() {
   const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const [showStep, setShowStep] = useState<STEP>(STEP.EMAIL);
+  const [isUserRegistered, setIsUserRegistered] = useState<boolean>(false);
+  const [isLoaderFormSubmit, setIsLoaderFormSubmit] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    control,
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSignupSchema),
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
+  const checkEmailRegistered = async (email: string) => {
+    return email === "admin@test.com";
+  };
 
-    if (email === "admin@test.com" && password === "123456") {
+  const handleEmailCheck = async () => {
+    setIsLoaderFormSubmit(true);
+    const registered = await checkEmailRegistered(getValues("email"));
+    setIsUserRegistered(registered);
+    setShowStep(registered ? STEP.PASSWORD : STEP.FORGOT_PASSWORD);
+    setIsLoaderFormSubmit(false);
+  };
+
+  const onSubmit = (data: LoginFormValues) => {
+    if (data.email === "admin@test.com" && data.password === "123456") {
       const token = "my-secret-token";
-      Cookies.set("token", token, {
-        expires: rememberMe ? 7 : undefined,
-      });
-
-      Cookies.set("user", JSON.stringify({ email, rememberMe }), {
-        expires: rememberMe ? 7 : undefined,
-      });
-
+      Cookies.set("token", token, { expires: data.rememberMe ? 7 : undefined });
+      Cookies.set(
+        "user",
+        JSON.stringify({ email: data.email, rememberMe: data.rememberMe }),
+        { expires: data.rememberMe ? 7 : undefined }
+      );
       router.push("/dashboard");
     } else {
       alert("Invalid credentials");
@@ -53,7 +116,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-[#F9F9FF]">
       <div className="w-full md:w-1/2 flex justify-center md:justify-start mb-10 md:ml-10 px-4">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md" data-registered={isUserRegistered}>
           <CardHeader className="flex flex-col justify-center items-center mb-4">
             <Image
               src="/assets/art.svg"
@@ -95,72 +158,115 @@ export default function LoginPage() {
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="example@gmail.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                  required
-                  className="rounded-md w-full text-[#030229]/70 font-normal"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
+            {showStep === STEP.EMAIL && (
+              <form className="space-y-4" onSubmit={handleEmailCheck}>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
                   <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    minLength={6}
-                    required
-                    className="pr-8 rounded-md w-full border  text-[#030229]/50"
+                    id="email"
+                    type="email"
+                    placeholder="example@gmail.com"
+                    {...register("email")}
+                    className="rounded-md w-full text-[#030229]/70 font-normal"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
-                  >
-                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                  </button>
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="remember"
-                    checked={rememberMe}
-                    onCheckedChange={(checked) =>
-                      setRememberMe(checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="remember" className="text-sm">
-                    Remember me
-                  </Label>
-                </div>
-                <span
-                  onClick={() => router.push("/recover-password")}
-                  className="text-sm text-[#605BFF] hover:underline cursor-pointer"
+                <Button
+                  type="submit"
+                  className="bg-[#605BFF] w-full hover:bg-[#3833c6] cursor-pointer text-white font-semibold rounded-lg"
+                  disabled={isLoaderFormSubmit}
                 >
-                  Reset Password?
-                </span>
-              </div>
+                  Continue
+                </Button>
+              </form>
+            )}
 
-              <Button
-                type="submit"
-                className="bg-[#605BFF] hover:bg-blue-600 cursor-pointer text-white font-semibold rounded-lg"
-              >
-                Log in
-              </Button>
-            </form>
+            {showStep === STEP.PASSWORD && (
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      {...register("password")}
+                      className="pr-8 rounded-md w-full border text-[#030229]/50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
+                    >
+                      {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <p className="text-red-500 text-sm">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Controller
+                      control={control}
+                      name="rememberMe"
+                      render={({ field }) => (
+                        <Checkbox
+                          id="remember"
+                          checked={!!field.value}
+                          onCheckedChange={(val: boolean) =>
+                            field.onChange(val)
+                          }
+                          onBlur={field.onBlur}
+                        />
+                      )}
+                    />
+                    <Label htmlFor="remember" className="text-sm">
+                      Remember me
+                    </Label>
+                  </div>
+                  <span
+                    onClick={() => setShowStep(STEP.FORGOT_PASSWORD)}
+                    className="text-sm text-[#605BFF] hover:underline cursor-pointer"
+                  >
+                    Reset Password?
+                  </span>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="bg-[#605BFF] hover:bg-blue-600 cursor-pointer text-white font-semibold rounded-lg"
+                >
+                  Log in
+                </Button>
+              </form>
+            )}
+
+            {showStep === STEP.FORGOT_PASSWORD && (
+              <div className=" flex space-y-2 gap-3">
+                <Button
+                  className="bg-[#605BFF] hover:bg-[#3b36d7] text-white"
+                  onClick={() => alert("Reset code sent!")}
+                >
+                  Get reset code
+                </Button>
+                <Button
+                  className="bg-[#605BFF] text-white  hover:bg-[#403bc6]"
+                  onClick={() => setShowStep(STEP.EMAIL)}
+                >
+                  <span className="inline-flex  items-center">
+                    <ChevronLeft size={18} /> Back
+                  </span>
+                </Button>
+              </div>
+            )}
           </CardContent>
 
           <CardFooter className="flex justify-center mt-4">

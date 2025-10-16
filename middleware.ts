@@ -20,17 +20,14 @@ export function middleware(req: NextRequest) {
   const isProtectedRoute = path.startsWith("/dashboard");
 
   if (!token && isProtectedRoute) {
-    // Redirect unauthenticated users to login
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   if (token && isAuthPage) {
-    // Redirect logged-in users away from login/signup
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   if (token && isTokenExpired(token)) {
-    // Expired token: clear cookie and redirect
     const res = NextResponse.redirect(new URL("/login", req.url));
     res.cookies.delete("token");
     return res;

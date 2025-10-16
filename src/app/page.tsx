@@ -1,23 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Loginpage from "./login/page";
+import Cookies from "js-cookie";
+import LoginPage from "./login/page";
 
 export default function HomePage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       router.push("/dashboard");
     } else {
-      setLoading(false);
+      router.push("/login");
     }
   }, [router]);
 
-  if (loading) return null;
-
-  return <Loginpage />;
+  return <LoginPage />;
 }
