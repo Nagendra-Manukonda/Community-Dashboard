@@ -22,45 +22,13 @@ import {
   LoginFormValues,
   loginSignupSchema,
 } from "../Validation/loginSignupSchema";
+import { STEP, LoginPageProps } from "@/types/login";
 
-export interface LoginPageProps {
-  initialStep?: STEP;
-}
-
-export interface InputProps {
-  id: string;
-  type?: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
-}
-
-export interface CheckboxProps {
-  id: string;
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-}
-
-export interface ButtonProps {
-  type?: "button" | "submit" | "reset";
-  onClick?: () => void;
-  disabled?: boolean;
-  text?: string;
-  icon?: React.ReactNode;
-  className?: string;
-}
-export enum STEP {
-  EMAIL = "EMAIL",
-  PASSWORD = "PASSWORD",
-  FORGOT_PASSWORD = "FORGOT_PASSWORD",
-}
-
-export default function LoginPage() {
+export default function LoginPage({ initialStep }: LoginPageProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [showStep, setShowStep] = useState<STEP>(STEP.EMAIL);
+  const [showStep, setShowStep] = useState<STEP>(initialStep || STEP.EMAIL);
   const [isUserRegistered, setIsUserRegistered] = useState<boolean>(false);
   const [isLoaderFormSubmit, setIsLoaderFormSubmit] = useState(false);
 
