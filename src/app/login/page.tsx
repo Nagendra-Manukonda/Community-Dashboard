@@ -22,13 +22,17 @@ import {
   LoginFormValues,
   loginSignupSchema,
 } from "../Validation/loginSignupSchema";
-import { STEP, LoginPageProps } from "@/types/login";
+import { STEP } from "@/types/login";
 
-export default function LoginPage({ initialStep }: LoginPageProps) {
+export default function LoginPage({
+  initialStep = STEP.EMAIL,
+}: {
+  initialStep?: STEP;
+}) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [showStep, setShowStep] = useState<STEP>(initialStep || STEP.EMAIL);
+  const [showStep, setShowStep] = useState<STEP>(initialStep);
   const [isUserRegistered, setIsUserRegistered] = useState<boolean>(false);
   const [isLoaderFormSubmit, setIsLoaderFormSubmit] = useState(false);
 
