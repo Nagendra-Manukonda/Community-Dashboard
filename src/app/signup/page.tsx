@@ -12,7 +12,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff } from "lucide-react";
+import { CircleAlert, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -110,40 +110,52 @@ export default function SignInPage() {
             </div>
 
             <form onSubmit={handleSubmit(handleSignup)} className="space-y-4">
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
                   id="name"
                   placeholder="Enter your full name"
-                  {...register("name")}
-                  className="rounded-md w-full text-[#030229]/70 border font-normal"
+                  {...register("name", { required: "Full Name is required" })}
+                  className={`rounded-md w-full text-[#030229]/70 border font-normal ${
+                    errors.name ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm">{errors.name.message}</p>
                 )}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  {...register("email")}
-                  className="rounded-md w-full text-[#030229]/70 border font-normal"
+                  {...register("email", { required: "Email is required" })}
+                  className={`rounded-md w-full text-[#030229]/70 border font-normal ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <CircleAlert className="w-4.5 h-4.5" />
+
+                    {errors.email.message || "Email is required"}
+                  </p>
                 )}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
                   placeholder="Enter your username"
-                  {...register("username")}
-                  className="rounded-md w-full text-[#030229]/70 border font-normal"
+                  {...register("username", {
+                    required: "Username is required",
+                  })}
+                  className={`rounded-md w-full text-[#030229]/70 border font-normal ${
+                    errors.username ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
                 {errors.username && (
                   <p className="text-red-500 text-sm">
@@ -152,23 +164,31 @@ export default function SignInPage() {
                 )}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    {...register("password")}
-                    className="pr-8 w-full rounded-md border text-[#030229]/50"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    })}
+                    className={`pr-8 w-full rounded-md border text-[#030229]/50 ${
+                      errors.password ? "border-red-500" : "border-gray-300"
+                    }`}
                   />
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
+                    className="absolute right-2 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
                   >
-                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                  </button>
+                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                  </Button>
                 </div>
                 {errors.password && (
                   <p className="text-red-500 text-sm">

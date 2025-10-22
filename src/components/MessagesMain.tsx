@@ -186,8 +186,10 @@ export default function MessagesMainMock() {
                         <MoreHorizontal className="text-[#030299]/40" />
 
                         {m.text && (
-                          <div className="inline-block bg-[#5B93FF] text-white p-3 rounded-xl rounded-tr-none max-w-[60%]">
-                            <div className="text-sm">{m.text}</div>
+                          <div className="inline-block bg-[#5B93FF] text-white p-3 rounded-xl rounded-tr-none max-w-[60%] break-words overflow-hidden">
+                            <div className="text-sm break-words whitespace-pre-wrap">
+                              {m.text}
+                            </div>
                           </div>
                         )}
                       </div>

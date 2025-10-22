@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, ChevronLeft } from "lucide-react";
+import { Eye, EyeOff, ChevronLeft, CircleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -56,7 +56,8 @@ export default function LoginPage() {
     return email === "admin@test.com";
   };
 
-  const handleEmailCheck = async () => {
+  const handleEmailCheck = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoaderFormSubmit(true);
     const registered = await checkEmailRegistered(getValues("email"));
     setIsUserRegistered(registered);
@@ -126,110 +127,125 @@ export default function LoginPage() {
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            {showStep === STEP.EMAIL && (
-              <form className="space-y-4" onSubmit={handleEmailCheck}>
+            {showStep !== STEP.FORGOT_PASSWORD && (
+              <form
+                className="space-y-4"
+                onSubmit={
+                  showStep === STEP.EMAIL
+                    ? handleEmailCheck
+                    : handleSubmit(onSubmit)
+                }
+              >
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="example@gmail.com"
+                    placeholder="name@company.com"
                     {...register("email")}
-                    className="rounded-md w-full text-[#030229]/70 font-normal"
+                    className={`rounded-md w-full text-[#030229]/70 font-normal border ${
+                      errors.email
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : "border-gray-300"
+                    }`}
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-sm">
-                      {errors.email.message}
+                    <p className="text-red-500  text-sm mt-1 flex items-center gap-1">
+                      <CircleAlert className="w-4.5 h-4.5" />
+
+                      {errors.email.message || "Email is required"}
                     </p>
                   )}
                 </div>
+
+                {showStep === STEP.PASSWORD && (
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        {...register("password")}
+                        className={`pr-8 rounded-md w-full border text-[#030229]/50 ${
+                          errors.password
+                            ? "border-red-500 focus-visible:ring-red-500"
+                            : "border-gray-300"
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
+                      >
+                        {showPassword ? (
+                          <Eye size={18} />
+                        ) : (
+                          <EyeOff size={18} />
+                        )}
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <p className="text-red-500 text-sm">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {showStep === STEP.PASSWORD && (
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Controller
+                        control={control}
+                        name="rememberMe"
+                        render={({ field }) => (
+                          <Checkbox
+                            id="remember"
+                            checked={!!field.value}
+                            onCheckedChange={(val: boolean) =>
+                              field.onChange(val)
+                            }
+                            onBlur={field.onBlur}
+                          />
+                        )}
+                      />
+                      <Label htmlFor="remember" className="text-sm">
+                        Remember me
+                      </Label>
+                    </div>
+                    <span
+                      onClick={() => setShowStep(STEP.FORGOT_PASSWORD)}
+                      className="text-sm text-[#605BFF] hover:underline cursor-pointer"
+                    >
+                      Reset Password?
+                    </span>
+                  </div>
+                )}
+
                 <Button
                   type="submit"
                   className="bg-[#605BFF] w-full hover:bg-[#3833c6] cursor-pointer text-white font-semibold rounded-lg"
                   disabled={isLoaderFormSubmit}
                 >
-                  Continue
-                </Button>
-              </form>
-            )}
-
-            {showStep === STEP.PASSWORD && (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      {...register("password")}
-                      className="pr-8 rounded-md w-full border text-[#030229]/50"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 justify-center cursor-pointer font-semibold -translate-y-1/2 text-[#030229]/50"
-                    >
-                      {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                    </button>
-                  </div>
-                  {errors.password && (
-                    <p className="text-red-500 text-sm">
-                      {errors.password.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Controller
-                      control={control}
-                      name="rememberMe"
-                      render={({ field }) => (
-                        <Checkbox
-                          id="remember"
-                          checked={!!field.value}
-                          onCheckedChange={(val: boolean) =>
-                            field.onChange(val)
-                          }
-                          onBlur={field.onBlur}
-                        />
-                      )}
-                    />
-                    <Label htmlFor="remember" className="text-sm">
-                      Remember me
-                    </Label>
-                  </div>
-                  <span
-                    onClick={() => setShowStep(STEP.FORGOT_PASSWORD)}
-                    className="text-sm text-[#605BFF] hover:underline cursor-pointer"
-                  >
-                    Reset Password?
-                  </span>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="bg-[#605BFF] hover:bg-blue-600 cursor-pointer text-white font-semibold rounded-lg"
-                >
-                  Log in
+                  {showStep === STEP.EMAIL ? "Continue" : "Log in"}
                 </Button>
               </form>
             )}
 
             {showStep === STEP.FORGOT_PASSWORD && (
-              <div className=" flex space-y-2 gap-3">
+              <div className="flex space-y-2 gap-3 mt-4">
                 <Button
                   className="bg-[#605BFF] hover:bg-[#3b36d7] text-white"
-                  onClick={() => alert("Reset code sent!")}
+                  onClick={() => router.push("/recover-password")}
                 >
-                  Get reset code
+                  Reset Password
                 </Button>
                 <Button
-                  className="bg-[#605BFF] text-white  hover:bg-[#403bc6]"
+                  className="bg-[#605BFF] text-white hover:bg-[#403bc6]"
                   onClick={() => setShowStep(STEP.EMAIL)}
                 >
-                  <span className="inline-flex  items-center">
+                  <span className="inline-flex items-center">
                     <ChevronLeft size={18} /> Back
                   </span>
                 </Button>
