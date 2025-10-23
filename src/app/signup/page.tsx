@@ -52,7 +52,7 @@ export default function SignInPage() {
     Cookies.set("token", token, {
       expires: data.rememberMe ? 7 : undefined,
     });
-      
+
     Cookies.set("user", JSON.stringify({ email: data.email }), {
       expires: data.rememberMe ? 7 : undefined,
     });
@@ -81,7 +81,7 @@ export default function SignInPage() {
 
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
-              <Button className="flex-1 gap-5 bg-white border border-gray-300 text-[#030229] font-normal text-[16px] rounded-[5px] py-5 hover:bg-gray-200/60">
+              <Button className="flex-1 gap-5 bg-white border border-gray-300 text-[#030229] font-normal text-[16px]  py-5 hover:bg-gray-200/60">
                 <Image
                   src="/assets/google.png"
                   alt="google"
@@ -90,7 +90,7 @@ export default function SignInPage() {
                 />
                 Google
               </Button>
-              <Button className="flex-1 gap-5 bg-white border border-gray-300 text-[#030229] font-normal text-[16px] rounded-[5px] py-5 hover:bg-gray-200/60">
+              <Button className="flex-1 gap-5 bg-white border border-gray-300 text-[#030229] font-normal text-[16px] py-5 hover:bg-gray-200/60">
                 <Image
                   src="/assets/facebook.png"
                   alt="facebook"
