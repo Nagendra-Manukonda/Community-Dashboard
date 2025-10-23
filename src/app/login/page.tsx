@@ -14,7 +14,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,6 +37,7 @@ export default function LoginPage() {
     formState: { errors },
     getValues,
     control,
+    trigger,
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSignupSchema),
     mode: "onChange",
@@ -58,6 +58,10 @@ export default function LoginPage() {
 
   const handleEmailCheck = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const isEmailValid = await trigger("email");
+    if (!isEmailValid || !getValues("email")) return;
+
     setIsLoaderFormSubmit(true);
     const registered = await checkEmailRegistered(getValues("email"));
     setIsUserRegistered(registered);
@@ -99,7 +103,7 @@ export default function LoginPage() {
 
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
-              <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
+              <Button className="flex-1 bg-white border text-[#030229]  hover:bg-gray-200">
                 <Image
                   src="/assets/google.png"
                   alt="google"
@@ -109,7 +113,7 @@ export default function LoginPage() {
                 />
                 Google
               </Button>
-              <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
+              <Button className="flex-1 bg-white border text-[#030229] hover:bg-gray-200">
                 <Image
                   src="/assets/facebook.png"
                   alt="facebook"
@@ -127,38 +131,40 @@ export default function LoginPage() {
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            {showStep !== STEP.FORGOT_PASSWORD && (
-              <form
-                className="space-y-4"
-                onSubmit={
-                  showStep === STEP.EMAIL
-                    ? handleEmailCheck
-                    : handleSubmit(onSubmit)
-                }
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@company.com"
-                    {...register("email")}
-                    className={`rounded-md w-full text-[#030229]/70 font-normal border ${
-                      errors.email
-                        ? "border-red-500 focus-visible:ring-red-500"
-                        : "border-gray-300"
-                    }`}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500  text-sm mt-1 flex items-center gap-1">
-                      <CircleAlert className="w-4.5 h-4.5" />
+            {/* Form start */}
+            <form
+              className="space-y-4"
+              onSubmit={
+                showStep === STEP.EMAIL
+                  ? handleEmailCheck
+                  : handleSubmit(onSubmit)
+              }
+            >
+              {/* Email ALWAYS visible */}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@company.com"
+                  {...register("email")}
+                  className={`rounded-md w-full text-[#030229]/70 font-normal border ${
+                    errors.email
+                      ? "border-red-500 focus-visible:ring-red-500"
+                      : "border-gray-300"
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <CircleAlert className="w-4.5 h-4.5" />
+                    {errors.email.message || "Email is required"}
+                  </p>
+                )}
+              </div>
 
-                      {errors.email.message || "Email is required"}
-                    </p>
-                  )}
-                </div>
-
-                {showStep === STEP.PASSWORD && (
+              {/* PASSWORD STEP */}
+              {showStep === STEP.PASSWORD && (
+                <>
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
@@ -191,9 +197,7 @@ export default function LoginPage() {
                       </p>
                     )}
                   </div>
-                )}
 
-                {showStep === STEP.PASSWORD && (
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Controller
@@ -221,36 +225,51 @@ export default function LoginPage() {
                       Reset Password?
                     </span>
                   </div>
-                )}
+                </>
+              )}
 
+              {/* EMAIL STEP */}
+              {showStep === STEP.EMAIL && (
                 <Button
                   type="submit"
-                  className="bg-[#605BFF] w-full hover:bg-[#3833c6] cursor-pointer text-white font-semibold rounded-lg"
+                  className="bg-[#605BFF] w-full hover:bg-[#3833c6] text-white font-semibold rounded-lg"
                   disabled={isLoaderFormSubmit}
                 >
-                  {showStep === STEP.EMAIL ? "Continue" : "Log in"}
+                  Continue
                 </Button>
-              </form>
-            )}
+              )}
 
-            {showStep === STEP.FORGOT_PASSWORD && (
-              <div className="flex space-y-2 gap-3 mt-4">
+              {/* PASSWORD STEP */}
+              {showStep === STEP.PASSWORD && (
                 <Button
-                  className="bg-[#605BFF] hover:bg-[#3b36d7] text-white"
-                  onClick={() => router.push("/recover-password")}
+                  type="submit"
+                  className="bg-[#605BFF] w-full hover:bg-[#3833c6] text-white font-semibold rounded-lg"
+                  disabled={isLoaderFormSubmit}
                 >
-                  Reset Password
+                  Log in
                 </Button>
-                <Button
-                  className="bg-[#605BFF] text-white hover:bg-[#403bc6]"
-                  onClick={() => setShowStep(STEP.EMAIL)}
-                >
-                  <span className="inline-flex items-center">
-                    <ChevronLeft size={18} /> Back
-                  </span>
-                </Button>
-              </div>
-            )}
+              )}
+
+              {/* FORGOT PASSWORD STEP — EMAIL visible ABOVE this */}
+              {showStep === STEP.FORGOT_PASSWORD && (
+                <div className="space-y-3">
+                  <Button
+                    className="bg-[#605BFF] w-full hover:bg-[#3b36d7] text-white"
+                    onClick={() => router.push("/recover-password")}
+                  >
+                    Reset Password
+                  </Button>
+                  <Button
+                    className="bg-[#605BFF] w-full text-white hover:bg-[#403bc6]"
+                    onClick={() => setShowStep(STEP.EMAIL)}
+                  >
+                    <span className="inline-flex items-center justify-center">
+                      <ChevronLeft size={18} /> Back
+                    </span>
+                  </Button>
+                </div>
+              )}
+            </form>
           </CardContent>
 
           <CardFooter className="flex justify-center mt-4">

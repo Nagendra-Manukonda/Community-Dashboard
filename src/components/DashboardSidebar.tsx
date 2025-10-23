@@ -189,8 +189,8 @@ export default function DashboardSidebar({
             <Image
               src="/assets/Illustration (2).svg"
               alt="Upgrade"
-              width={90}
-              height={90}
+              width={130}
+              height={130}
               className="opacity-90 mt-32"
             />
           </div>
@@ -232,7 +232,7 @@ export default function DashboardSidebar({
                   collapsed ? "mt-2" : ""
                 }`}
               >
-                <LogOutIcon size={18} />
+                <LogOutIcon size={20} />
               </button>
             </div>
           </SidebarContent>

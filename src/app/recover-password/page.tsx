@@ -76,7 +76,7 @@ export default function RecoverPage() {
                 <Button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2` top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
                 >
                   {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </Button>

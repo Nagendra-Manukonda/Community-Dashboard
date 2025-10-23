@@ -33,6 +33,7 @@ export default function SignInPage() {
     register,
     handleSubmit,
     control,
+    trigger,
     formState: { errors },
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -81,7 +82,7 @@ export default function SignInPage() {
 
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
-              <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
+              <Button className="flex-1 bg-white border text-[#030229] rounded-[5px] hover:bg-gray-200/60">
                 <Image
                   src="/assets/google.png"
                   alt="google"
@@ -91,7 +92,7 @@ export default function SignInPage() {
                 />
                 Google
               </Button>
-              <Button className="flex-1 bg-white border border-gray-300 text-[#030229] rounded-md hover:bg-gray-100">
+              <Button className="flex-1 bg-white border  text-[#030229] rounded-[5px] hover:bg-gray-200/60">
                 <Image
                   src="/assets/facebook.png"
                   alt="facebook"
