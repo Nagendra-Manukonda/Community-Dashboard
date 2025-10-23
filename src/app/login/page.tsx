@@ -103,23 +103,21 @@ export default function LoginPage() {
 
           <CardContent className="flex flex-col gap-4">
             <div className="flex gap-3">
-              <Button className="flex-1 bg-white border text-[#030229]  hover:bg-gray-200">
+              <Button className="flex-1 gap-5 bg-white border border-gray-300 font-normal text-[16px] text-[#030229] hover:bg-gray-200/70 py-5">
                 <Image
                   src="/assets/google.png"
                   alt="google"
                   width={20}
                   height={20}
-                  className="mr-2"
                 />
                 Google
               </Button>
-              <Button className="flex-1 bg-white border text-[#030229] hover:bg-gray-200">
+              <Button className="flex-1 gap-5 bg-white border border-gray-300 font-normal text-[16px] text-[#030229] hover:bg-gray-200/70 py-5">
                 <Image
                   src="/assets/facebook.png"
                   alt="facebook"
                   width={20}
                   height={20}
-                  className="mr-2"
                 />
                 Facebook
               </Button>
