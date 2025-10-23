@@ -52,7 +52,7 @@ export default function SignInPage() {
     Cookies.set("token", token, {
       expires: data.rememberMe ? 7 : undefined,
     });
-
+      
     Cookies.set("user", JSON.stringify({ email: data.email }), {
       expires: data.rememberMe ? 7 : undefined,
     });
