@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -183,10 +184,10 @@ export default function MessagesMainMock() {
                   <div key={m.id} className="flex justify-end items-end gap-3">
                     <div className="text-right">
                       <div className="flex justify-end gap-4 items-center">
-                        <MoreHorizontal className="text-[#030299]/40" />
+                        <MoreHorizontal className="text-[#030299]/40 cursor-pointer" />
 
                         {m.text && (
-                          <div className="inline-block bg-[#5B93FF] text-white p-3 rounded-xl rounded-tr-none max-w-[60%] break-words overflow-hidden">
+                          <div className="  inline-block bg-[#5B93FF] text-white  rounded-xl rounded-br-none py-6 px-7 max-w-[60%] break-words overflow-hidden">
                             <div className="text-sm break-words whitespace-pre-wrap">
                               {m.text}
                             </div>
@@ -202,7 +203,9 @@ export default function MessagesMainMock() {
                           className="inline-block rounded-xl max-w-[240px]"
                         />
                       )}
-                      <div className="text-xs text-gray-400 mt-1">{m.time}</div>
+                      <div className=" text-xs text-gray-400 mt-1">
+                        {m.time}
+                      </div>
                     </div>
                   </div>
                 );
@@ -221,7 +224,7 @@ export default function MessagesMainMock() {
                           <div className="text-sm text-[#030229]">{m.text}</div>
                         </div>
                       )}
-                      <MoreHorizontal className="text-[#030299]/40" />
+                      <MoreHorizontal className="text-[#030299]/40 cursor-pointer " />
                     </div>
                     {m.image && (
                       <div className="flex gap-3 mt-2">

@@ -65,7 +65,7 @@ export default function SignInPage() {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-[#F9F9FF]">
       <div className="w-full md:w-1/2 flex justify-center md:justify-start mb-10 md:ml-10 px-4">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md p-6">
           <CardHeader className="flex flex-col justify-center items-center mb-4">
             <Image
               src="/assets/art.svg"
