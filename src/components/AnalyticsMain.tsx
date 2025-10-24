@@ -287,7 +287,7 @@ export default function AnalyticsMain() {
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-t transition-transform duration-200 rounded-[10px] hover:-translate-y-3 hover:shadow-lg shadow-[#605BFF]/30"
+                  className="border-t transition-transform duration-200 rounded-[10px] hover:shadow-lg shadow-[#605BFF]/20"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="px-4 py-4 ">

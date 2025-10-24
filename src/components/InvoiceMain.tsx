@@ -306,7 +306,7 @@ export default function InvoiceMain() {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="transition-transform  duration-200 rounded-[10px] hover:-translate-y-3 hover:shadow-lg shadow-[#605BFF]/40"
+                className="transition-transform  duration-200 rounded-[10px] hover:shadow-lg shadow-[#605BFF]/20"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td
