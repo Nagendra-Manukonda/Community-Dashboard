@@ -132,7 +132,6 @@ export default function LoginPage() {
               <span className="flex-1 h-px bg-gray-200" />
             </div>
 
-            {/* Form start */}
             <form
               className="space-y-4"
               onSubmit={
@@ -141,7 +140,6 @@ export default function LoginPage() {
                   : handleSubmit(onSubmit)
               }
             >
-              {/* Email ALWAYS visible */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input
@@ -163,7 +161,6 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {/* PASSWORD STEP */}
               {showStep === STEP.PASSWORD && (
                 <>
                   <div className="space-y-2">
@@ -229,7 +226,6 @@ export default function LoginPage() {
                 </>
               )}
 
-              {/* EMAIL STEP */}
               {showStep === STEP.EMAIL && (
                 <Button
                   type="submit"
@@ -240,7 +236,6 @@ export default function LoginPage() {
                 </Button>
               )}
 
-              {/* PASSWORD STEP */}
               {showStep === STEP.PASSWORD && (
                 <Button
                   type="submit"
@@ -251,7 +246,6 @@ export default function LoginPage() {
                 </Button>
               )}
 
-              {/* FORGOT PASSWORD STEP — EMAIL visible ABOVE this */}
               {showStep === STEP.FORGOT_PASSWORD && (
                 <div className="space-y-3">
                   <Button

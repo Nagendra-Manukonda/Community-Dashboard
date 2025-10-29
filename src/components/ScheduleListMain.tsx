@@ -244,7 +244,7 @@ export default function ScheduleListMain() {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-b border-t transition-transform duration-200 rounded-[10px]  hover:shadow-lg shadow-[#605BFF]/20"
+                    className="border-b border-t transition-transform duration-200 rounded-[10px] hover:shadow-lg shadow-[#605BFF]/20"
                   >
                     <td className="px-4 py-8">
                       <Input
