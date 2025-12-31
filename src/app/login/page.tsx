@@ -93,6 +93,11 @@ export default function LoginPage() {
           className="w-full max-w-md p-6"
           data-registered={isUserRegistered}
         >
+          <h1 className="w-full top-5 left-4 text-gray-500">
+            Note:You can use this email to get full access to the login email:
+            <span className="text-violet-400">admin@test.com</span> password :{" "}
+            <span className="text-violet-400">123456</span>
+          </h1>
           <CardHeader className="flex flex-col justify-center items-center mb-4">
             <Image
               src="/assets/art.svg"
